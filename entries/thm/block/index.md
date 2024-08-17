@@ -393,13 +393,6 @@ Navigate to the site, paste the hash and press **Crack Hashes**.
 ![Cracking hash](images/image-6.png)
 
 <div class="card">
-<h4>Q2. What is the password of the user in question 1?</h4>
-<hr>
-**Answer:** Blockbuster1
-</span>
-</div>
-
-<div class="card">
 <h4>Q5. What is the hash of the user in question 4?</h4>
 <hr>
 **Answer:** 3f29138a04aadc19214e9c04028bf381
@@ -474,20 +467,6 @@ As you can see we've got two file ready to be exported, select **Save all** and 
 Navigate to chosen directory and read the files.
 
 ![Flags](images/image-13.png)
-
-<div class="card">
-<h4>Q3. What is the flag that the first user got access to?</h4>
-<hr>
-**Answer:** THM{SmB_DeCrypTing_who_Could_Have_Th0ughT}
-</span>
-</div>
-
-<div class="card">
-<h4>Q6. What is the flag that the second user got access to?</h4>
-<hr>
-**Answer:** THM{No_PasSw0Rd?_No_Pr0bl3m}
-</span>
-</div>
 
 </main>
 
