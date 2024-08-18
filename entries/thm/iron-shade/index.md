@@ -1,6 +1,16 @@
 ---
 title: Iron Shade
 date: <i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>17.08.2024
+keywords:
+- Iron Shade
+- Iron Shade Write-Up
+- Iron Shade Writeup
+- Writeup
+- Writeups
+- ctf
+- Capture The Flag
+- TryHackMe
+- thm
 ...
 
 <main>

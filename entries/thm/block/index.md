@@ -1,6 +1,13 @@
 ---
 title: Block
 date: <i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>13.08.2024
+keywords:
+- Block
+- Block Writeup
+- Write-Up
+- TryHackMe
+- thm
+- Aleksander Jóźwik
 ...
 
 <main>
