@@ -115,10 +115,8 @@ The **timestamp** is the first thing we can read: *Aug 5 22:05:33*;
 As I said before *auth.log* will contain network services information such as **SSH connections**. We will again use **grep** and search for *ssh*, we can grab the first
 event to find the IP address: *10.11.75.247*;
 
-![Searching for SSH connections in logs](images/6.png.png)
-
 ```bash
-$ cat /varr/log/auth.log | grep -a ssh
+$ cat /var/log/auth.log | grep -a ssh
 [ Output omitted... ]
 Aug 13 22:16:12 cybertees sshd[2388]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=10.11.75.247  user=mircoservice
 [ Output omitted...]

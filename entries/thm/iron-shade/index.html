@@ -197,10 +197,7 @@ Investigate the server and identify the footprints left behind after the exploit
 <p>In order to filter logs we can use <strong>grep</strong> with an <strong>-a</strong> switch (because grep treats auth.log as a binary file) for the <em>useradd command</em>. The <strong>timestamp</strong> is the first thing we can read: <em>Aug 5 22:05:33</em>;</p>
 <h1 data-number="9" id="from-which-ip-address-were-multiple-ssh-connections-observed-against-the-suspicious-backdoor-account"><span class="header-section-number">9</span> From which IP address were multiple SSH connections observed against the suspicious backdoor account?</h1>
 <p>As I said before <em>auth.log</em> will contain network services information such as <strong>SSH connections</strong>. We will again use <strong>grep</strong> and search for <em>ssh</em>, we can grab the first event to find the IP address: <em>10.11.75.247</em>;</p>
-<figure>
-<img src="images/6.png.png" alt="" /><figcaption>Searching for SSH connections in logs</figcaption>
-</figure>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>$ <span class="fu">cat</span> /varr/log/auth.log <span class="kw">|</span> <span class="fu">grep</span> -a ssh</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>$ <span class="fu">cat</span> /var/log/auth.log <span class="kw">|</span> <span class="fu">grep</span> -a ssh</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="bu">[</span> Output omitted...<span class="bu"> ]</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="ex">Aug</span> 13 22:16:12 cybertees sshd[2388]: PAM 2 more authentication failures<span class="kw">;</span> <span class="va">logname=</span> <span class="va">uid=</span>0 <span class="va">euid=</span>0 <span class="va">tty=</span>ssh <span class="va">ruser=</span> <span class="va">rhost=</span>10.11.75.247  <span class="va">user=</span>mircoservice</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="bu">[</span> Output omitted...]</span></code></pre></div>
