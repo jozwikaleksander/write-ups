@@ -1,6 +1,11 @@
 $("document").ready(() => {
     const toc = $('#TOC')[0];
     const tocMenu = toc.cloneNode(true);
+    let title = document.createElement('h1');
+    title.innerText = 'Table of Contents';
+    let sep = document.createElement('hr');
+    tocMenu.prepend(sep);
+    tocMenu.prepend(title);
     tocMenu.classList.add("toc-menu");
     tocMenu.removeAttribute("id");
     tocMenu.removeAttribute("role");

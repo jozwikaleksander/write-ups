@@ -1,0 +1,15 @@
+/* List of write ups in the main page */
+
+.write-ups-list {
+    list-style-type: none;
+}
+
+.write-ups-list>li::before {
+    content: ' ';
+    margin-right: 10px;
+}
+
+
+.write-ups-list>li>a{
+    color: var(--font-color);
+}

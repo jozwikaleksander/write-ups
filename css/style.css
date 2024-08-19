@@ -12,8 +12,9 @@
   --red-color: #bf616a;
   --yellow-color: #ebcb8b;
   --orange-color: #d08770;
-  --blue-color: #5e81ac;
+  --blue-color: #7dc4e4;
   --lightblue-color: #88c0d0;
+  --flamingo-color: #f2cdcd;
   --figcaption-color: #d8dee9;
   --font-family: Iosevka, monospace;
   --scrollbar-track: var(--foreground-color);
@@ -48,6 +49,10 @@ body {
 .disabled {
   opacity: 0 !important;
   pointer-events: none;
+}
+.visible{
+  display: flex !important;
+  pointer-events: all !important;
 }
 
 /* ------ */
@@ -256,6 +261,8 @@ p {
 
 img {
   width: 100%;
+  border: 2px solid var(--magenta-color);
+  border-radius: 10px;
 }
 
 h1,
@@ -306,15 +313,6 @@ ul {
 li>ol,
 li>ul {
   margin-top: 0;
-}
-
-.write-ups-list {
-  list-style-type: none;
-}
-
-.write-ups-list>li::before {
-  content: ' ';
-  margin-right: 10px;
 }
 
 blockquote {
@@ -468,20 +466,6 @@ a:hover {
   border-bottom: 2px dashed var(--lightblue-color);
 }
 
-
-.write-ups-list li a {
-  color: white !important;
-  cursor: pointer;
-  text-decoration: none;
-  border-bottom: none;
-}
-
-.write-ups-list>li>a:hover {
-  color: #efefef !important;
-  text-decoration: underline white 2px;
-  border-bottom: none;
-}
-
 .home-button {
   text-decoration: none;
   display: block;
@@ -615,4 +599,52 @@ pre .clipboard-btn.activated {
 }
 .logo img{
   display: block;
+  border: 3px solid var(--magenta-color);
+  border-radius: 0;
+}
+
+/* Fullscreen Wrapper */
+.fullscreenWrapper{
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #181825EE;
+  backdrop-filter: blur(4px);
+}
+.fullscreenImage{
+  border:0;
+  max-width: 100%;
+  max-height: 100vh;
+  width: auto;
+  margin: auto;
+  box-shadow: 8px 8px 24px 0px rgba(49, 50, 68, 1);
+}
+
+/* Zoomable images */
+.zoomable{
+  transition: .2s linear all;
+}
+.zoomable:hover{
+  border-color: var(--blue-color);
+}
+
+/* Footer */
+.footer{
+  background-color: var(--foreground-color);
+  color:var(--figcaption-color);
+  width:100%;
+  padding:2px;
+  border-radius: 10px;
+  margin-top:20px;
+}
+.footer p{
+  text-align: center;
+  color: var(--flamingo-color);
+  pointer-events: none;
 }
