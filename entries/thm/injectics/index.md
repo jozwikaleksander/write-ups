@@ -266,6 +266,7 @@ Let's go to **Profile**.
 ![Update profile page](<images/Editing profile.png>)
 Here we can edit profile details. If you recall on the dashboard there was a message "Welcome, admin!", so probably the *"first name"* value is used to display the message. We can try to set it to a random value like test, and see if something changes in the dashboard.
 ![Testing name change](<images/Testing name change.png>)
+
 And here it is! 
 
 ## Server-Side Template Injection
