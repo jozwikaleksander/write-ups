@@ -1,6 +1,6 @@
 ---
 title: Injectics
-date: <i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>13.08.2024
+date: <i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>26.08.2024
 keywords:
 - Injectics
 - Injectics Writeup

