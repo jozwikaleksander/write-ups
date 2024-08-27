@@ -267,29 +267,29 @@ Let's go to **Profile**.
 Here we can edit profile details. If you recall on the dashboard there was a message "Welcome, admin!", so probably the *"first name"* value is used to display the message. We can try to set it to a random value like test, and see if something changes in the dashboard.
 ![Testing name change](<images/Testing name change.png>)
 
-And here it is! 
+And here it is!
 
 ## Server-Side Template Injection
 In the [composer.json](#composerjson) file, we discovered that this app uses [twig](https://twig.symfony.com/) (a template engine), so we can try **Server-Side Template Injection**. We will inject malicious code into a template, which will be executed on the server. More about SSTI [here](https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection). Let's go back to Profile page, and test our idea using payload below:
-```
+```php
 {{7*7}}
 ```
 ![SSTI test](<images/SSTI test.png>)
 As we can see our payload was processed. Now let's try something more exciting. If you check the THM page our goal is to read content of **flags** directory. In order to find payload which works you can use this [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection#twig) repository.
 
 If we combine some payloads listed in the repo, we've got this:
-```
+```php
 {{['id','']|sort('passthru')}}
 ```
 Passing it into the form will result in this welcome message.
 ![Testing payload](<images/SSTI1.png>)
 Now that we have PoC, we can search for flags directory.
-```
+```php
 {{['ls','']|sort('passthru')}}
 ```
 ![Listing content of the root folder](images/SSTI2.png)
 As we can see there is our flags directory, so let's read everything inside this directory.
-```
+```php
 {{['cat flags/*','']|sort('passthru')}}
 ```
 ![Final flag](<images/Final flag.png>)
