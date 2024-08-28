@@ -4,7 +4,7 @@
         {
             "label": "Convert to HTML",
             "type": "shell",
-            "command": "pandoc --highlight-style breezedark --metadata title=\"Block\" --number-sections --toc --mathjax=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\" --include-in-header=\"config/header.txt\" -c ../../../css/style.css -s index.md -o index.html --include-before-body=\"config/before-body.txt\"",
+            "command": "pandoc --highlight-style breezedark --metadata title=\"Block\" --number-sections --toc --mathjax=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\" --include-in-header=\"config/header.txt\" -c ../../../css/style.css -s index.md -o index.html --include-before-body=\"config/before-body.txt\" -A \"config/after-body.txt\"",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",

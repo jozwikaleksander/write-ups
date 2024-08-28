@@ -1,5 +1,5 @@
 <div class="logo">
-<img src="../../../img/favicon/favicon-64.png" style="width:64px; display:block;">
+<a href="http://aleksanderjozwik.com"><img src="../../../img/favicon/favicon-64.png" style="width:64px; display:block;"></a>
 </div>
 
 <!-- Navbar -->
